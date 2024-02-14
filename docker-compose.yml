@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: 'postgres:alpine'
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+  api:
+      image : ahmadryzen/online-store:latest
+      container_name: online-store
+      restart: always
+      env_file:
+        - .env
+      ports:
+        - 8080:8080
+      expose:
+        - 8080
+
+volumes:
+  postgres-db:
